@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {ShannonFanoCode} from './services/ShannonFanoCode';
 
-const Item = ({id, onChange, initialFreq, codeLength, code}) => (
+const Item = ({id, onChange, freq, codeLength, code}) => (
   <tr>
     <th scope="row">{id}</th>
     <td>
       <input
         type="text"
         className="form-control"
-        defaultValue={initialFreq}
+        value={freq}
         onChange={e => onChange(id, e.target.value)}
       />
     </td>
@@ -21,10 +21,14 @@ const Item = ({id, onChange, initialFreq, codeLength, code}) => (
 class App extends React.Component {
   constructor() {
     super();
-    this.itemRefs = {};
-    this.onChange = this.onChange.bind(this);
-    // const frequencies = [600, 300, 50, 25, 25];
-    const frequencies = [1, 1, 1];
+    const frequencies = [600, 300, 50, 25, 25];
+    // const frequencies = [1, 1, 1];
+    this.state = {
+      frequencies,
+    };
+  }
+
+  buildItems(frequencies) {
     const sfc = new ShannonFanoCode(frequencies);
     const codeLen = sfc.codeLength();
     const codes = sfc.buildPrefixCode();
@@ -37,15 +41,15 @@ class App extends React.Component {
         code: codes[i],
       });
     }
-    this.state = {
-      items,
-    };
+    return items;
   }
 
   render() {
+    const items = this.buildItems(this.state.frequencies);
     // http://bootsnipp.com/snippets/featured/dynamic-table-row-creation-and-deletion
     return (
-      <div>
+      <div className="container">
+        <h1>Shannon-Fano Code</h1>
         <table className="table table-hover">
           <thead>
             <tr>
@@ -56,34 +60,68 @@ class App extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.items.map(item => (
+            {items.map(item => (
               <Item
                 key={item.id}
                 id={item.id}
                 onChange={this.onChange}
-                initialFreq={item.initialFreq}
+                freq={item.initialFreq}
                 codeLength={item.codeLength}
                 code={item.code}
               />
             ))}
           </tbody>
         </table>
-        <button type="button" className="btn btn-default pull-left">
+        <button
+          type="button"
+          className="btn btn-default pull-left"
+          onClick={this.addDatum}
+        >
           Add Row
         </button>
-        <button type="button" className="btn btn-default pull-right">
+        <button
+          type="button"
+          className="btn btn-default pull-right"
+          onClick={this.removeDatum}
+        >
           Delete Row
         </button>
       </div>
     );
   }
 
-  onChange(id, value) {
-    console.log(id, value);
+  // http://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
+  isNormalInteger(str) {
+    var n = Math.floor(Number(str));
+    return String(n) === str && n >= 0;
   }
+
+  onChange = (id, value) => {
+    if (!this.isNormalInteger(value)) {
+      return;
+    }
+    const frequencies = [...this.state.frequencies];
+    frequencies[id - 1] = Number.parseInt(value, 10);
+    this.setState({
+      frequencies,
+    });
+  };
+
+  addDatum = () => {
+    this.setState({
+      frequencies: this.state.frequencies.concat(0),
+    });
+  };
+
+  removeDatum = () => {
+    const freq = this.state.frequencies;
+    if (freq.length === 0) {
+      return;
+    }
+    this.setState({
+      frequencies: freq.slice(0, -1),
+    });
+  };
 }
 
 ReactDOM.render(<App />, document.getElementById('react-root'));
-
-const shannonFanoCode = new ShannonFanoCode([0.6, 0.3, 0.05, 0.025, 0.025]);
-console.log(shannonFanoCode.buildPrefixCode());
