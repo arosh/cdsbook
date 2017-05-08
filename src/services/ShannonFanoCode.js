@@ -1,19 +1,16 @@
 export class ShannonFanoCode {
-  constructor(frequences) {
-    this.frequences = frequences;
-    this.count = 0;
-    for (const freq of frequences) {
-      this.count += freq;
-    }
+  constructor(frequencies) {
+    this.frequencies = frequencies;
+    this.total = frequencies.reduce((x, y) => x + y, 0);
   }
   codeLength() {
     const ls = [];
-    for (const freq of this.frequences) {
+    for (const freq of this.frequencies) {
       if (freq === 0) {
         ls.push(0);
         return 0;
       } else {
-        ls.push(Math.log2(this.count / freq));
+        ls.push(Math.log2(this.total / freq));
       }
     }
     return ls;
@@ -21,7 +18,7 @@ export class ShannonFanoCode {
   buildPrefixCode() {
     const codeLen = this.codeLength();
     const S = [];
-    for (let i = 0; i < this.frequences.length; i++) {
+    for (let i = 0; i < this.frequencies.length; i++) {
       S.push({s: i, l: Math.ceil(codeLen[i]) | 0});
     }
     S.sort((x, y) => x.l - y.l);
