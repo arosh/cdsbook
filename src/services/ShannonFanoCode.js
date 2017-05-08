@@ -1,5 +1,9 @@
+// @flow
+
 export class ShannonFanoCode {
-  constructor(frequencies) {
+  frequencies: Array<number>;
+  total: number;
+  constructor(frequencies: Array<number>) {
     this.frequencies = frequencies;
     this.total = frequencies.reduce((x, y) => x + y, 0);
   }
@@ -8,7 +12,6 @@ export class ShannonFanoCode {
     for (const freq of this.frequencies) {
       if (freq === 0) {
         ls.push(0);
-        return 0;
       } else {
         ls.push(Math.log2(this.total / freq));
       }
@@ -23,7 +26,7 @@ export class ShannonFanoCode {
     }
     S.sort((x, y) => x.l - y.l);
     const codes = [];
-    codes[0] = this.binaryCode(0, S[0].l);
+    codes[0] = 0;
     for (let i = 1; i < S.length; i++) {
       codes[i] = (codes[i - 1] + 1) << (S[i].l - S[i - 1].l);
     }
@@ -33,7 +36,7 @@ export class ShannonFanoCode {
     }
     return retval;
   }
-  binaryCode(value, length) {
+  binaryCode(value: number, length: number) {
     let s = value.toString(2);
     while (s.length < length) {
       s = '0' + s;

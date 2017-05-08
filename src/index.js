@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {ShannonFanoCode} from './services/ShannonFanoCode';
@@ -20,16 +22,19 @@ const Item = ({id, onChange, freq, probability, codeLength, code}) => (
 );
 
 class App extends React.Component {
+  state: {
+    frequencies: Array<number>,
+  };
+
   constructor() {
     super();
     const frequencies = [600, 300, 50, 25, 25];
-    // const frequencies = [1, 1, 1];
     this.state = {
       frequencies,
     };
   }
 
-  buildItems(frequencies) {
+  buildItems(frequencies: Array<number>) {
     const sfc = new ShannonFanoCode(frequencies);
     const codeLen = sfc.codeLength();
     const codes = sfc.buildPrefixCode();
@@ -96,12 +101,12 @@ class App extends React.Component {
   }
 
   // http://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
-  isNormalInteger(str) {
+  isNormalInteger(str: string) {
     var n = Math.floor(Number(str));
     return String(n) === str && n >= 0;
   }
 
-  onChange = (id, value) => {
+  onChange = (id: number, value: string) => {
     if (!this.isNormalInteger(value)) {
       return;
     }

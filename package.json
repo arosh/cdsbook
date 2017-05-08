@@ -7,6 +7,7 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "flow-bin": "^0.45.0",
     "gh-pages": "^0.12.0",
     "prettier-eslint": "^6.2.0",
     "prettier-eslint-cli": "^3.4.3",
@@ -17,7 +18,8 @@
     "build": "react-scripts build",
     "lint": "prettier-eslint --write \"src/**/*.js\"",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "flow": "flow"
   },
   "homepage": "https://arosh.github.io/cdsbook/"
 }
