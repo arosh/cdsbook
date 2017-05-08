@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ShannonFanoCode } from './services/ShannonFanoCode';
+import {ShannonFanoCode} from './services/ShannonFanoCode';
 
-const Item = ({ id, onChange, initialFreq, codeLength, code }) => (
+const Item = ({id, onChange, initialFreq, codeLength, code}) => (
   <tr>
     <th scope="row">{id}</th>
     <td>
@@ -10,7 +10,8 @@ const Item = ({ id, onChange, initialFreq, codeLength, code }) => (
         type="text"
         className="form-control"
         defaultValue={initialFreq}
-        onChange={(e) => onChange(id, e.target.value)} />
+        onChange={e => onChange(id, e.target.value)}
+      />
     </td>
     <td>{codeLength}</td>
     <td>{code}</td>
@@ -20,7 +21,7 @@ const Item = ({ id, onChange, initialFreq, codeLength, code }) => (
 class App extends React.Component {
   constructor() {
     super();
-    this.itemRefs = {}
+    this.itemRefs = {};
     this.onChange = this.onChange.bind(this);
     // const frequencies = [600, 300, 50, 25, 25];
     const frequencies = [1, 1, 1];
@@ -38,7 +39,7 @@ class App extends React.Component {
     }
     this.state = {
       items,
-    }
+    };
   }
 
   render() {
@@ -55,19 +56,24 @@ class App extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.items.map(item =>
+            {this.state.items.map(item => (
               <Item
                 key={item.id}
                 id={item.id}
                 onChange={this.onChange}
                 initialFreq={item.initialFreq}
                 codeLength={item.codeLength}
-                code={item.code} />
-            )}
+                code={item.code}
+              />
+            ))}
           </tbody>
         </table>
-        <button type="button" className="btn btn-default pull-left">Add Row</button>
-        <button type="button" className="btn btn-default pull-right">Delete Row</button>
+        <button type="button" className="btn btn-default pull-left">
+          Add Row
+        </button>
+        <button type="button" className="btn btn-default pull-right">
+          Delete Row
+        </button>
       </div>
     );
   }
@@ -77,10 +83,7 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('react-root')
-);
+ReactDOM.render(<App />, document.getElementById('react-root'));
 
 const shannonFanoCode = new ShannonFanoCode([0.6, 0.3, 0.05, 0.025, 0.025]);
 console.log(shannonFanoCode.buildPrefixCode());

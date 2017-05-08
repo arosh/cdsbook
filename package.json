@@ -7,10 +7,13 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "prettier-eslint": "^6.2.0",
+    "prettier-eslint-cli": "^3.4.3",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "lint": "prettier-eslint --write \"src/**/*.js\""
   }
 }

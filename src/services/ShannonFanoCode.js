@@ -22,7 +22,7 @@ export class ShannonFanoCode {
     const codeLen = this.codeLength();
     const S = [];
     for (let i = 0; i < this.frequences.length; i++) {
-      S.push({ s: i, l: Math.ceil(codeLen[i]) | 0 });
+      S.push({s: i, l: Math.ceil(codeLen[i]) | 0});
     }
     S.sort((x, y) => x.l - y.l);
     const codes = [];
@@ -39,7 +39,7 @@ export class ShannonFanoCode {
   binaryCode(value, length) {
     let s = value.toString(2);
     while (s.length < length) {
-      s = "0" + s;
+      s = '0' + s;
     }
     return s;
   }
