@@ -43,7 +43,7 @@ class App extends React.Component {
     for (let i = 0; i < frequencies.length; i++) {
       items.push({
         id: i + 1,
-        initialFreq: frequencies[i],
+        freq: frequencies[i],
         probability: frequencies[i] / total,
         codeLength: codeLen[i],
         code: codes[i],
@@ -74,7 +74,7 @@ class App extends React.Component {
                 key={item.id}
                 id={item.id}
                 onChange={this.onChange}
-                freq={item.initialFreq}
+                freq={item.freq}
                 probability={item.probability}
                 codeLength={item.codeLength}
                 code={item.code}
