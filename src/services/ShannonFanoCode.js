@@ -38,9 +38,6 @@ export class ShannonFanoCode {
   }
   binaryCode(value: number, length: number) {
     let s = value.toString(2);
-    while (s.length < length) {
-      s = '0' + s;
-    }
-    return s;
+    return s.padStart(length, '0');
   }
 }
